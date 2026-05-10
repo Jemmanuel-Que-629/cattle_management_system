@@ -1,0 +1,84 @@
+1. pages/ (or views/)
+
+What it is:
+
+UI pages
+HTML rendering
+dashboard screens
+
+Example:
+
+cattle_list.php
+add_cattle.php
+health_records.php
+
+Rule:
+No SQL. No business logic.
+
+2. api/ (ONLY if you really use it)
+
+What it is:
+
+JSON endpoints
+used by JS (AJAX, fetch)
+or external systems
+
+Example:
+
+get_cattle.php
+save_weight.php
+get_health_status.php
+
+Rule:
+Returns JSON only. No HTML.
+
+If you're not doing frontend JS heavy interaction, you might not even need this folder.
+
+3. repository/
+
+What it is:
+
+database access ONLY
+
+Example:
+
+getAllCattle()
+getCattleById($id)
+insertCattle($data)
+updateWeight($id, $weight)
+
+Rule:
+No calculations. No rules. Only SQL.
+
+4. service/
+
+This is the brain
+
+What it is:
+
+business logic
+rules
+computations
+
+Example in cattle system:
+
+calculateWeightGain($before, $after)
+detectSickAnimal($temperature, $symptoms)
+computeFeedRequirement($weight)
+determineBreedingStatus($age, $health)
+
+Rule:
+No SQL. No HTML.
+
+5. template/
+
+What it is:
+
+reusable UI parts
+
+Example:
+
+sidebar
+header
+footer
+table components
