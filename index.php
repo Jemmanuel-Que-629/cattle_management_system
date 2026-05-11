@@ -1,12 +1,20 @@
+<?php
+
+require_once __DIR__ . '/config/config.php';
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cow Management System - Login</title>
+    <title>Cattle Management System - Login</title>
     <link href='https://fonts.googleapis.com/css?family=Poppins' rel='stylesheet'>
-    <!-- Corrected Bootstrap 5.3 CDN -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Added Bootstrap Icons CDN -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    
     <style>
         body {
             background-color: #f8f9fa;
@@ -24,7 +32,7 @@
             border-radius: 15px;
             box-shadow: 0 10px 25px rgba(0,0,0,0.1);
             width: 100%;
-            max-width: 600px;
+            max-width: 450px; /* Adjusted width for better look */
         }
 
         .login-header {
@@ -34,11 +42,10 @@
 
         .login-header h2 {
             font-weight: 700;
-            color: #2e7d32; /* Earthy Green */
-            font-size: 30px;
+            color: #2e7d32;
+            font-size: 28px;
         }
 
-        /* Customizing the Google-style floating labels */
         .form-floating > label {
             font-size: 16px;
             color: #6c757d;
@@ -47,6 +54,22 @@
         .form-control:focus {
             border-color: #4CAF50;
             box-shadow: 0 0 0 0.25rem rgba(76, 175, 80, 0.25);
+        }
+
+        /* Eye Icon Styling */
+        .password-wrapper {
+            position: relative;
+        }
+
+        .toggle-password {
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            cursor: pointer;
+            z-index: 10;
+            color: #6c757d;
+            font-size: 1.2rem;
         }
 
         .btn-login {
@@ -66,11 +89,6 @@
             background-color: #388e3c;
             transform: translateY(-1px);
         }
-
-        .form-check-label {
-            font-size: 14px;
-            color: #495057;
-        }
     </style>
 </head>
 <body>
@@ -81,29 +99,45 @@
             <p class="text-muted" style="font-size: 14px;">Please login to your account</p>
         </div>
 
-        <form action="/login.php">
-            <!-- Floating Email Field -->
+        <form action="<?= BASE_URL ?>controller/auth_controller.php" method="POST">
             <div class="form-floating mb-3">
                 <input type="email" class="form-control" id="email" name="email" placeholder="name@example.com" required>
                 <label for="email">Email address</label>
             </div>
 
-            <!-- Floating Password Field -->
-            <div class="form-floating mb-3">
-                <input type="password" class="form-control" id="pwd" name="pwd" placeholder="Password" required>
-                <label for="pwd">Password</label>
+            <!-- Password with Eye Icon -->
+            <div class="password-wrapper mb-3">
+                <div class="form-floating">
+                    <input type="password" class="form-control" id="pwd" name="password" placeholder="Password" required>
+                    <label for="pwd">Password</label>
+                </div>
+                <i class="bi bi-eye-slash toggle-password" id="toggleIcon"></i>
             </div>
 
             <div class="form-check mb-3">
                 <input class="form-check-input" type="checkbox" id="remember" name="remember">
-                <label class="form-check-label" for="remember">
-                    Remember me
-                </label>
+                <label class="form-check-label" for="remember">Remember me</label>
             </div>
 
             <button type="submit" class="btn btn-login">Login</button>
         </form>
     </div>
+
+    <!-- JavaScript to toggle password visibility -->
+    <script>
+        const toggleIcon = document.querySelector('#toggleIcon');
+        const passwordInput = document.querySelector('#pwd');
+
+        toggleIcon.addEventListener('click', function () {
+            // Toggle the type attribute
+            const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+            passwordInput.setAttribute('type', type);
+            
+            // Toggle the icon class
+            this.classList.toggle('bi-eye');
+            this.classList.toggle('bi-eye-slash');
+        });
+    </script>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>

@@ -8,19 +8,19 @@ use Dotenv\Dotenv;
 $dotenv = Dotenv::createImmutable(__DIR__ . '/../');
 $dotenv->load();
 
-$env = $_ENV['APP_ENV'] ?? 'local';
+$env = getenv('APP_ENV') ?: 'local';
 
 if ($env === 'local') {
-    $host = $_ENV['DB_LOCAL_HOST'];
-    $db   = $_ENV['DB_LOCAL_NAME'];
-    $user = $_ENV['DB_LOCAL_USER'];
-    $pass = $_ENV['DB_LOCAL_PASS'];
-} else {
-    $host = $_ENV['DB_PROD_HOST'];
-    $db   = $_ENV['DB_PROD_NAME'];
-    $user = $_ENV['DB_PROD_USER'];
-    $pass = $_ENV['DB_PROD_PASS'];
-}
+        $host = $_SERVER['DB_HOST'] ?? $_ENV['DB_HOST'];
+        $db   = $_SERVER['DB_DATABASE'] ?? $_ENV['DB_DATABASE'];
+        $user = $_SERVER['DB_USERNAME'] ?? $_ENV['DB_USERNAME'];
+        $pass = $_SERVER['DB_PASSWORD'] ?? $_ENV['DB_PASSWORD'] ?? ''; 
+    } else {
+        $host = $_SERVER['PROD_DB_HOST'] ?? $_ENV['PROD_DB_HOST'];
+        $db   = $_SERVER['PROD_DB_DATABASE'] ?? $_ENV['PROD_DB_DATABASE'];
+        $user = $_SERVER['PROD_DB_USERNAME'] ?? $_ENV['PROD_DB_USERNAME'];
+        $pass = $_SERVER['PROD_DB_PASSWORD'] ?? $_ENV['PROD_DB_PASSWORD'];
+    }
 
 try {
     $conn = new PDO(
