@@ -1,6 +1,16 @@
 <?php
 
+session_start();
+
 require_once __DIR__ . '/config/config.php';
+require_once __DIR__ . '/middleware/auth_middleware.php';
+
+if (!empty($_SESSION['logged_in'])) {
+    $roleId = (int)($_SESSION['user_role_id'] ?? 0);
+    $roleName = (string)($_SESSION['user_role'] ?? '');
+
+    redirectToDashboard($roleId, $roleName, BASE_URL);
+}
 
 ?>
 
@@ -98,6 +108,13 @@ require_once __DIR__ . '/config/config.php';
             <h2>🐂 Cattle Management System</h2>
             <p class="text-muted" style="font-size: 14px;">Please login to your account</p>
         </div>
+
+        <?php if (!empty($_SESSION['error'])): ?>
+            <div class="alert alert-danger" role="alert">
+                <?= htmlspecialchars($_SESSION['error'], ENT_QUOTES, 'UTF-8') ?>
+            </div>
+            <?php unset($_SESSION['error']); ?>
+        <?php endif; ?>
 
         <form action="<?= BASE_URL ?>controller/auth_controller.php" method="POST">
             <div class="form-floating mb-3">
